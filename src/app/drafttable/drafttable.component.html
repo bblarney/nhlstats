@@ -1,0 +1,36 @@
+<div *ngIf="singleDraft">
+    <div *ngIf="draftProspects">
+        table is below
+        <br>
+        <br>
+        <select [(ngModel)]="selectedYear" (change)="refreshYear($event.target.value)">
+            <option *ngFor="let y of yearArray" value={{y}}>{{y}}</option>
+        </select>-
+        <table class="table-responsive table-bordered">
+            <tbody>
+                <tr>
+                    <Td><b>Round</b></Td>
+                    <Td style="text-align: center;"><b>Pick</b></Td>
+                </tr>
+                <tr *ngFor="let x of singleDraft.rounds">
+                    <td style="vertical-align: top;">
+                        {{x.round}}
+                    </td>
+                    <td >
+                        <tr *ngFor="let y of x.picks">
+                            <td style="min-width: 3ch;">{{ y.pickOverall}}</td>
+                            <td style="min-width: 3ch;">{{ y.team.name}}</td>
+                            <td style="min-width: 24ch;">{{ y.prospect.fullName}}</td>
+                            <td *ngIf="y.year > 1999" style="min-width: 16ch;">{{ draftProspects[y.pickOverall-1].birthCity}}</td>
+                            <td *ngIf="y.year > 1999" style="min-width: 3ch;">{{ draftProspects[y.pickOverall-1].birthCountry}}</td>
+                            <td *ngIf="y.year > 1999">{{ draftProspects[y.pickOverall-1].height}}</td>
+                            <td *ngIf="y.year > 1999">{{ draftProspects[y.pickOverall-1].weight}}</td>
+                            <td *ngIf="y.year > 1999">{{ draftProspects[y.pickOverall-1].primaryPosition.code}}</td>
+                        </tr>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+    

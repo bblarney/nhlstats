@@ -1,0 +1,78 @@
+<div *ngIf="playerTotalData">
+    table is below
+    <br>
+    <br>
+    <select [(ngModel)]="selectedTeam" (change)="refreshTeam($event.target.value)">
+        <option *ngFor="let t of teamArray" value={{t.id}}>{{t.name}}</option>
+    </select>
+    <table class="table-responsive table-bordered" matSort (matSortChange)="sortPlayers($event)">
+        <thead>
+            <tr>
+                <th mat-sort-header="name">Name</th>
+                <th mat-sort-header="age">Age</th>
+                <th mat-sort-header="position">Position</th>
+                <th mat-sort-header="birthcity">birthCity</th>
+                <th mat-sort-header="birthcountry">birthCountry</th>
+                <th mat-sort-header="gp">Games Played</th>
+                <th mat-sort-header="goals">Goals</th>
+                <th mat-sort-header="assists">Assists</th>
+                <th mat-sort-header="points">Points</th>
+                <th mat-sort-header="ppg">PPG</th>
+                <th mat-sort-header="plusminus">+/-</th>
+                <th mat-sort-header="shots">Shots</th>
+                <th mat-sort-header="shpct">Shot%</th>
+                <th mat-sort-header="toi">TOI</th>
+                <th mat-sort-header="toig">TOI/G</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of playerTotalData">
+                <td>
+                    {{ p[1]?.people[0]?.fullName}}
+                </td>
+                <td>
+                    {{ p[1]?.people[0]?.currentAge }}
+                </td>
+                <td>
+                    {{ p[1]?.people[0]?.primaryPosition.name }}
+                </td>
+                <td>
+                    {{ p[1]?.people[0]?.birthCity}}
+                </td>
+                <td>
+                    {{ p[1]?.people[0]?.birthCountry}}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.games) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.goals) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.assists) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.points) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.points/p[0]?.stats[0]?.splits[0]?.stat.games | number: '1.2-2') || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.plusMinus) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.shots) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.shotPct) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.timeOnIce) || 0 }}
+                </td>
+                <td>
+                    {{ (p[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame) || 0 }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
