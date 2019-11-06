@@ -5,7 +5,7 @@
     <select [(ngModel)]="selectedTeam" (change)="refreshTeam($event.target.value)">
         <option *ngFor="let t of teamArray" value={{t.id}}>{{t.name}}</option>
     </select>
-    <table class="table-responsive table-bordered" matSort (matSortChange)="sortPlayers($event)">
+    <table table class="table-responsive table-bordered" matSort (matSortChange)="sortPlayers($event)">
         <thead>
             <tr>
                 <th mat-sort-header="name">Name</th>
@@ -71,6 +71,74 @@
                 </td>
                 <td>
                     {{ (p[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame) || 0 }}
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        <table table class="table-responsive table-bordered" matSort (matSortChange)="sortGoalies($event)">
+            <tr>
+                <th mat-sort-header="gname">Name</th>
+                <th mat-sort-header="gage">Age</th>
+                <th mat-sort-header="gposition">Position</th>
+                <th mat-sort-header="gbirthcity">birthCity</th>
+                <th mat-sort-header="gbirthcountry">birthCountry</th>
+                <th mat-sort-header="ggp">Games Played</th>
+                <th mat-sort-header="win">Wins</th>
+                <th mat-sort-header="loss">Losses</th>
+                <th mat-sort-header="ot">OTL</th>
+                <th mat-sort-header="so">Shutouts</th>
+                <th mat-sort-header="gaa">GAA</th>
+                <th mat-sort-header="sv">SV%</th>
+                <th mat-sort-header="esv">ESV%</th>
+                <th mat-sort-header="shsv">SHSV%</th>
+                <th mat-sort-header="gtoig">TOI/G</th>
+            </tr>
+            <tbody>
+            <tr *ngFor="let g of goalieTotalData">
+                <td>
+                    {{ g[1]?.people[0]?.fullName}}
+                </td>
+                <td>
+                    {{ g[1]?.people[0]?.currentAge }}
+                </td>
+                <td>
+                    {{ g[1]?.people[0]?.primaryPosition.name }}
+                </td>
+                <td>
+                    {{ g[1]?.people[0]?.birthCity}}
+                </td>
+                <td>
+                    {{ g[1]?.people[0]?.birthCountry}}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.games) || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.wins) || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.losses) || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.ot) || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.shutouts) || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.goalsAgainstAverage) || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.savePercentage | number: '1.2-3') || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.evenStrengthsavePercentage/100 | number: '1.2-3') || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.shortHandedSavePercentage/100 | number: '1.2-3') || 0 }}
+                </td>
+                <td>
+                    {{ (g[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame) || 0 }}
                 </td>
             </tr>
         </tbody>
