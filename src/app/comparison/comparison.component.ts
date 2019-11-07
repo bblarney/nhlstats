@@ -112,7 +112,6 @@ export class ComparisonComponent implements OnInit {
   }
 
   comparePlayers(){
-    console.log(this.chkOffense + " " + this.chkDefense + " " + this.chkPP + " " + this.chkSH)
     this.player1points = 0
     this.player2points = 0
 
@@ -165,6 +164,48 @@ export class ComparisonComponent implements OnInit {
         this.player1points += 1 * offenseMod
       }else if (this.player1Data[0].stats[0].splits[0].stat.shotPct > this.player2Data[0].stats[0].splits[0].stat.shotPct){
         this.player2points += 1 * offenseMod
+      }
+
+      //compare pp goals%
+      if (this.player1Data[0].stats[0].splits[0].stat.powerPlayGoals > this.player2Data[0].stats[0].splits[0].stat.powerPlayGoals){
+        this.player1points += 1 * ppMod
+      }else if (this.player1Data[0].stats[0].splits[0].stat.powerPlayGoals > this.player2Data[0].stats[0].splits[0].stat.powerPlayGoals){
+        this.player2points += 1 * ppMod
+      }
+
+      //compare pp points%
+      if (this.player1Data[0].stats[0].splits[0].stat.powerPlayPoints > this.player2Data[0].stats[0].splits[0].stat.powerPlayPoints){
+        this.player1points += 1 * ppMod
+      }else if (this.player1Data[0].stats[0].splits[0].stat.powerPlayPoints > this.player2Data[0].stats[0].splits[0].stat.powerPlayPoints){
+        this.player2points += 1 * ppMod
+      }
+
+      //compare sh goals%
+      if (this.player1Data[0].stats[0].splits[0].stat.shortHandedGoals > this.player2Data[0].stats[0].splits[0].stat.shortHandedGoals){
+        this.player1points += 1 * shMod
+      }else if (this.player1Data[0].stats[0].splits[0].stat.shortHandedGoals > this.player2Data[0].stats[0].splits[0].stat.shortHandedGoals){
+        this.player2points += 1 * shMod
+      }
+
+      //compare sh points%
+      if (this.player1Data[0].stats[0].splits[0].stat.shortHandedPoints > this.player2Data[0].stats[0].splits[0].stat.shortHandedPoints){
+        this.player1points += 1 * shMod
+      }else if (this.player1Data[0].stats[0].splits[0].stat.shortHandedPoints > this.player2Data[0].stats[0].splits[0].stat.shortHandedPoints){
+        this.player2points += 1 * shMod
+      }
+
+      //compare blocks%
+      if (this.player1Data[0].stats[0].splits[0].stat.blocked > this.player2Data[0].stats[0].splits[0].stat.blocked){
+        this.player1points += 1 * defenseMod
+      }else if (this.player1Data[0].stats[0].splits[0].stat.blocked > this.player2Data[0].stats[0].splits[0].stat.blocked){
+        this.player2points += 1 * defenseMod
+      }
+
+      //compare hits%
+      if (this.player1Data[0].stats[0].splits[0].stat.hits > this.player2Data[0].stats[0].splits[0].stat.hits){
+        this.player1points += 1 * defenseMod
+      }else if (this.player1Data[0].stats[0].splits[0].stat.hits > this.player2Data[0].stats[0].splits[0].stat.hits){
+        this.player2points += 1 * defenseMod
       }
 
       this.playerAdv = this.player1points - this.player2points
