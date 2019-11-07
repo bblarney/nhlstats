@@ -1,0 +1,297 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <select (change)="getTeam1($event.target.value)">
+                <option *ngFor="let t of teamArray" value={{t.id}}>{{t.name}}</option>
+            </select>
+        </div>
+        <div class="col-md-6"> 
+            <select (change)="getTeam2($event.target.value)">
+                <option *ngFor="let t of teamArray" value={{t.id}}>{{t.name}}</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <select (change)="getPlayer1($event.target.value)">
+                <option *ngFor="let p of team1Players" value={{p?.person?.id}}>{{p?.person?.fullName}}</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <select (change)="getPlayer2($event.target.value)">
+                <option *ngFor="let p of team2Players" value={{p?.person?.id}}>{{p?.person?.fullName}}</option>
+            </select>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="d-flex justify-content-center" style="width: 100%;">
+            <div class="p-2"><input type="checkbox" value="1" (change)="chkOffense = !chkOffense; comparePlayers()"><label>Favour Offense</label></div>
+            <div class="p-2"><input type="checkbox" value="2" (change)="chkDefense = !chkDefense; comparePlayers()"><label>Favour Defense</label></div>
+            <div class="p-2"><input type="checkbox" value="3" (change)="chkPP = !chkPP; comparePlayers()"><label>Favour PP</label></div>
+            <div class="p-2"><input type="checkbox" value="4" (change)="chkSH = !chkSH; comparePlayers()"><label>Favour SH</label></div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-md-6">
+            <div *ngIf="player1Data && player2Data" class="table-bordered">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Player
+                        </th>
+                        <td>
+                            {{player1Data[1].people[0].fullName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Goals
+                        </th>
+                        <td [style.background-color]="player1Data[0]?.stats[0]?.splits[0]?.stat.goals > player2Data[0]?.stats[0]?.splits[0]?.stat.goals ? 'MediumSeaGreen' : null">
+                            {{ (player1Data[0]?.stats[0]?.splits[0]?.stat.goals) || 0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Assists
+                        </th>
+                        <td [style.background-color]="player1Data[0]?.stats[0]?.splits[0]?.stat.assists > player2Data[0]?.stats[0]?.splits[0]?.stat.assists? 'MediumSeaGreen' : null">
+                            {{ (player1Data[0]?.stats[0]?.splits[0]?.stat.assists) || 0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Points
+                        </th>
+                        <td [style.background-color]="player1Data[0]?.stats[0]?.splits[0]?.stat.points > player2Data[0]?.stats[0]?.splits[0]?.stat.points ? 'MediumSeaGreen' : null">
+                            {{ (player1Data[0]?.stats[0]?.splits[0]?.stat.points) || 0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            PPG
+                        </th>
+                        <td>
+                            {{ (player1Data[0]?.stats[0]?.splits[0]?.stat.points/player1Data[0]?.stats[0]?.splits[0]?.stat.games | number: '1.2-2') || 0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            P/60
+                        </th>
+                        <td>
+                            0
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Shots
+                        </th>
+                        <td [style.background-color]="player1Data[0]?.stats[0]?.splits[0]?.stat.shots > player2Data[0]?.stats[0]?.splits[0]?.stat.shots ? 'MediumSeaGreen' : null">
+                            {{ (player1Data[0]?.stats[0]?.splits[0]?.stat.shots) || 0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            SH%
+                        </th>
+                        <td [style.background-color]="player1Data[0]?.stats[0]?.splits[0]?.stat.shotPct > player2Data[0]?.stats[0]?.splits[0]?.stat.shotPct ? 'MediumSeaGreen' : null">
+                            {{ (player1Data[0]?.stats[0]?.splits[0]?.stat.shotPct) || 0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            TOI/G
+                        </th>
+                        <td [style.background-color]="player1Data[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame > player2Data[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame ? 'MediumSeaGreen' : null">
+                            {{ (player1Data[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame) || 0 }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div *ngIf="goalie1Data" class="table-bordered">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Player
+                        </th>
+                        <td>
+                            {{goalie1Data[1].people[0].fullName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Save%
+                        </th>
+                        <td>
+                            {{ (goalie1Data[0]?.stats[0]?.splits[0]?.stat.savePercentage | number: '1.2-3')  || 0 }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div *ngIf="player2Data && player1Data" class="table-bordered">
+                <table class="table">
+                        <tr>
+                            <th>
+                                Player
+                            </th>
+                            <td >
+                                {{player2Data[1].people[0].fullName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Goals
+                            </th>
+                            <td [style.background-color]="player2Data[0]?.stats[0]?.splits[0]?.stat.goals > player1Data[0]?.stats[0]?.splits[0]?.stat.goals ? 'MediumSeaGreen' : null">
+                                {{ (player2Data[0]?.stats[0]?.splits[0]?.stat.goals) || 0 }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Assists
+                            </th>
+                            <td [style.background-color]="player2Data[0]?.stats[0]?.splits[0]?.stat.assists > player1Data[0]?.stats[0]?.splits[0]?.stat.assists? 'MediumSeaGreen' : null">
+                                {{ (player2Data[0]?.stats[0]?.splits[0]?.stat.assists) || 0 }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Points
+                            </th>
+                            <td [style.background-color]="player2Data[0]?.stats[0]?.splits[0]?.stat.points > player1Data[0]?.stats[0]?.splits[0]?.stat.points ? 'MediumSeaGreen' : null">
+                                {{ (player2Data[0]?.stats[0]?.splits[0]?.stat.points) || 0 }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                PPG
+                            </th>
+                            <td>
+                                {{ (player2Data[0]?.stats[0]?.splits[0]?.stat.points/player2Data[0]?.stats[0]?.splits[0]?.stat.games | number: '1.2-2') || 0 }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                P/60
+                            </th>
+                            <td>
+                                0
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Shots
+                            </th>
+                            <td [style.background-color]="player2Data[0]?.stats[0]?.splits[0]?.stat.shots > player1Data[0]?.stats[0]?.splits[0]?.stat.shots ? 'MediumSeaGreen' : null">
+                                {{ (player2Data[0]?.stats[0]?.splits[0]?.stat.shots) || 0 }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                SH%
+                            </th>
+                            <td [style.background-color]="player2Data[0]?.stats[0]?.splits[0]?.stat.shotPct > player1Data[0]?.stats[0]?.splits[0]?.stat.shotPct ? 'MediumSeaGreen' : null">
+                                {{ (player2Data[0]?.stats[0]?.splits[0]?.stat.shotPct) || 0 }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                TOI/G
+                            </th>
+                            <td [style.background-color]="player2Data[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame > player1Data[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame ? 'MediumSeaGreen' : null">
+                                {{ (player2Data[0]?.stats[0]?.splits[0]?.stat.timeOnIcePerGame) || 0 }}
+                            </td>
+                        </tr>
+                </table>
+            </div>
+            <div *ngIf="goalie2Data" class="table-bordered">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Player
+                        </th>
+                        <td>
+                            {{goalie2Data[1].people[0].fullName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Save%
+                        </th>
+                        <td>
+                            {{ (goalie2Data[0]?.stats[0]?.splits[0]?.stat.savePercentage | number: '1.2-3')  || 0 }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row"  style="float:center">
+        <div class="col-md-6">
+            <div *ngIf="player1Data && player2Data" class="table-bordered">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Score
+                        </th>
+                        <td>
+                            {{player1points}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Conclusion
+                        </th>
+                        <td>
+                            {{compare1Result}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Confidence
+                        </th>
+                        <td>
+                            {{playeradv}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div *ngIf="player1Data && player2Data" class="table-bordered">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Score
+                        </th>
+                        <td>
+                            {{player2points}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Conclusion
+                        </th>
+                        <td>
+                            {{compare2Result}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Confidence
+                        </th>
+                        <td>
+                            {{playeradv}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

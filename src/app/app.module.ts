@@ -9,13 +9,15 @@ import { StattableComponent } from './stattable/stattable.component';
 import { DrafttableComponent } from './drafttable/drafttable.component';
 import { MatTableModule, MatSortModule} from '@angular/material/';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComparisonComponent } from './comparison/comparison.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     StattableComponent,
-    DrafttableComponent
+    DrafttableComponent,
+    ComparisonComponent
   ],
   imports: [
     BrowserModule,
