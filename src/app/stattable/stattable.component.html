@@ -2,7 +2,7 @@
     table is below
     <br>
     <br>
-    <select [(ngModel)]="selectedTeam" (change)="refreshTeam($event.target.value)">
+    <select (change)="refreshTeam($event.target.value)">
         <option *ngFor="let t of teamArray" value={{t.id}}>{{t.name}}</option>
     </select>
     <table table class="table-responsive table-bordered" matSort (matSortChange)="sortPlayers($event)">

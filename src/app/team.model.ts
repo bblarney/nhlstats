@@ -105,6 +105,7 @@ export class Prospects{
     "firstName" : string
     "lastName" : string
     "birthDate" : string
+    "birthCity" : string
     "birthCountry" : string
     "height" : string
     "weight" : number
